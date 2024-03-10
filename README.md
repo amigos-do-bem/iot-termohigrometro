@@ -12,7 +12,7 @@ A principal aplicação será nas quatro farmácias do sertão (Ceará, Alagoas,
 
 Com isso, as equipes de médicos e farmacêuticos dos Amigos do Bem, podem acompanhar essas mensurações em tempo real (por painel Web ou aplicativo de celular) sem a necessidade de visitarem pessoalmente esses locais.
 
-A maioria dos termohigrômetro disponíveis no mercado não disponibilizam o armazenamento digital ou o acompanhamento remoto
+A maioria dos termohigrômetros disponíveis no mercado não disponibilizam o armazenamento digital ou o acompanhamento remoto.
 
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/e9efb266-0a4e-4b0c-a66e-e941a0ee7736" width="350">
 
@@ -61,7 +61,7 @@ https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/3865d0d2-aa3
 ## Componentes
 * 01 - Placa NodeMCU v2
 * 01 - Sensor DHT-11/DHT-22
-* 01 - Resistor 1K Ω Resistor (atuam como pull-up)
+* 01 - Resistor 10K Ω (pull-up)
 * 01 - Display LED modelo Adafruit 128x64 (SSD1306)
 
 ## Instruções
