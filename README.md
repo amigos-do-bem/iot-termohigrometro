@@ -53,6 +53,11 @@ Programação de um microcontrolador ESP8266 (compatível com Arduino) em lingua
 
 Obs: Este projeto precisa de internet para obter o horário atual (de um serviço de NTP) e para enviar as informações para a plataforma de IoT Arduino Cloud.
 
+
+https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/3865d0d2-aa39-4d6d-bef5-e9a55b23db73
+
+(Demonstrando aumento de temperatura)
+
 ## Componentes
 * 01 - Placa NodeMCU v2
 * 01 - Sensor DHT-11/DHT-22
