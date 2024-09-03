@@ -6,10 +6,10 @@
 #include "global.h"
 #include "TimeNtp.h"
 #include "thingProperties.h"
+#include "NoDelay.h"
 
 DHT dht(DHTPIN, DHTTYPE);
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-
 
 void preparaOled();
 void atualizaMedidas();
@@ -17,24 +17,36 @@ void imprimeOledMedidas();
 void exibeMedidasSerial();
 void conectaWifi();
 void imprimeOledCarregando();
+noDelay timerMedidas;
+noDelay timerOled;
 
 void setup() {
   Serial.begin(9600);
+
+  timerMedidas.setdelay(5000);
+  timerOled.setdelay(1000);
+
   preparaOled();
   imprimeOledCarregando();
-  dht.begin();
   initProperties();
   ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  dht.begin();
   preparaNtp();
   delay(2000);
 }
 
 void loop() {
-  atualizaMedidas();
-  ArduinoCloud.update();
-  exibeMedidasSerial();
-  imprimeOledMedidas();
-  delay(1000);
+  // executa a cada 5 segundos
+  if (timerMedidas.update()) {
+    atualizaMedidas();
+    ArduinoCloud.update();
+    exibeMedidasSerial();
+  }
+
+  // executa a cada 1 segundo
+  if (timerOled.update()) {
+    imprimeOledMedidas();
+  }
 }
 
 void preparaOled() {
