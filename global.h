@@ -4,8 +4,8 @@
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 
-#define WIFI_SSID "XXXXXXXXXXXXXXXXXXXXXXX"
-#define WIFI_PWD "XXXXXXXXXXXXXXXXXXXXXXX"
+#define WIFI_SSID "xxxxxxxxxxxxxxxxxxxxxxxxx"
+#define WIFI_PWD "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-#define DEVICE_LOGIN_NAME "XXXXXXXXXXXXXXXXXXXXXXX"
-#define DEVICE_KEY "XXXXXXXXXXXXXXXXXXXXXXX"
+#define DEVICE_LOGIN_NAME "xxxxxxxxxxxxxxxxxxx"
+#define DEVICE_KEY "xxxxxxxxxxxxxxxxxxxxxx"
