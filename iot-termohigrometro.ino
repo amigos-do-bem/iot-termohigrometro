@@ -1,142 +1,168 @@
 #include <Arduino.h>
 #include <DHT.h>
-#include <Adafruit_SSD1306.h>
 #include <Wire.h>
+#include <U8g2lib.h>
 #include <ESP8266WiFi.h>
 #include "global.h"
 #include "TimeNtp.h"
 #include "thingProperties.h"
 #include "NoDelay.h"
 
-DHT dht(DHTPIN, DHTTYPE);
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+//Display SH1106
+U8G2_SH1106_128X64_NONAME_F_SW_I2C display(U8G2_R0, /* clock=*/ D1, /* data=*/ D2, /* reset=*/ U8X8_PIN_NONE);
 
-void preparaOled();
-void atualizaMedidas();
-void imprimeOledMedidas();
-void exibeMedidasSerial();
-void conectaWifi();
-void imprimeOledCarregando();
+//DHT Sensor
+DHT dht(DHTPIN, DHTTYPE);
+
+//Timers com NoDelay
 noDelay timerMedidas;
-noDelay timerOled;
+noDelay timerDisplay;
+time_t tempoAtual;
+
 
 void setup() {
   Serial.begin(9600);
+  conectaWifi();
 
-  timerMedidas.setdelay(5000);
-  timerOled.setdelay(1000);
+  timerMedidas.setdelay(5000);   // 5 segundos para medidas
+  timerDisplay.setdelay(1000);   // 1 segundo para atualizar display
 
   preparaOled();
   imprimeOledCarregando();
+
   initProperties();
   ArduinoCloud.begin(ArduinoIoTPreferredConnection);
   dht.begin();
   preparaNtp();
+
   delay(2000);
 }
 
+
 void loop() {
-  // executa a cada 5 segundos
+  ArduinoCloud.update();  // Atualiza conexão com a nuvem
+
   if (timerMedidas.update()) {
     atualizaMedidas();
-    ArduinoCloud.update();
     exibeMedidasSerial();
   }
 
-  // executa a cada 1 segundo
-  if (timerOled.update()) {
+  if (timerDisplay.update()) {
+    tempoAtual = now();  // Atualiza a variável global
     imprimeOledMedidas();
   }
 }
 
-void preparaOled() {
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for (;;)
-      ;
+//Conexão WiFi
+void conectaWifi() {
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Já está conectado ao WiFi.");
+    return;
   }
-  delay(2000);
-  display.clearDisplay();
-  display.setTextColor(WHITE);
+
+  Serial.println("Conectando ao WiFi...");
+  WiFi.begin(WIFI_SSID, WIFI_PWD);
+
+  int tentativas = 0;
+  while (WiFi.status() != WL_CONNECTED && tentativas < 20) {
+    delay(500);
+    Serial.print(".");
+    tentativas++;
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nWiFi conectado.");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\nErro ao conectar no WiFi.");
+  }
 }
 
+//OLED Setup
+void preparaOled() {
+  display.begin();
+  display.setFont(u8g2_font_7x14_tr); // Fonte sem serifa
+  display.clearBuffer();
+  display.sendBuffer();
+}
+
+//Tela de loading
+void imprimeOledCarregando() {
+  display.clearBuffer();
+  display.drawStr(20, 30, "Carregando...");
+  display.sendBuffer();
+}
+
+//Sensor leitura
 void atualizaMedidas() {
   float t = dht.readTemperature();
   float u = dht.readHumidity();
 
   if (isnan(t) || isnan(u)) {
-    Serial.println("Failed to read from DHT sensor!");
+    Serial.println("Erro ao ler o sensor DHT!");
     return;
   }
+
   temperatura = t;
   umidade = u;
 }
 
 void exibeMedidasSerial() {
   Serial.print(umidade);
-  Serial.print("%");
-  Serial.print(",  ");
+  Serial.print("%,  ");
   Serial.print(temperatura, 0);
   Serial.println("*C");
 }
 
+//Ícones personalizados
+void desenhaGotinha(uint8_t x, uint8_t y) {
+  display.drawTriangle(x + 4, y, x + 1, y + 6, x + 7, y + 6);
+  display.drawEllipse(x + 4, y + 6, 3, 2, U8G2_DRAW_ALL);
+}
+
+void desenhaSol(uint8_t x, uint8_t y) {
+  display.drawDisc(x + 4, y + 4, 3);
+  display.drawLine(x + 4, y - 1, x + 4, y - 3);
+  display.drawLine(x + 4, y + 9, x + 4, y + 11);
+  display.drawLine(x - 1, y + 4, x - 3, y + 4);
+  display.drawLine(x + 9, y + 4, x + 11, y + 4);
+  display.drawLine(x + 1, y + 1, x, y);
+  display.drawLine(x + 7, y + 1, x + 8, y);
+  display.drawLine(x + 1, y + 7, x, y + 8);
+  display.drawLine(x + 7, y + 7, x + 8, y + 8);
+}
+
+//Exibir dados no OLED
 void imprimeOledMedidas() {
-  display.stopscroll();
-  display.clearDisplay();
-  char dataNtp[20];
-  sprintf(dataNtp, "%02d/%02d/%02d %02d:%02d:%02d", day(), month(), year(), hour(), minute(), second());
+  char dataStr[20];
+  char horaStr[10];
+  sprintf(dataStr, "%02d/%02d/%04d", day(tempoAtual), month(tempoAtual), year(tempoAtual));
+  sprintf(horaStr, "%02d:%02d:%02d", hour(tempoAtual), minute(tempoAtual), second(tempoAtual));
 
-  display.setTextSize(2);
-  display.setCursor(5, 0);
-  display.print(dataNtp);
-  display.print(" ");
+  display.clearBuffer();
 
-  display.setTextSize(1);
-  display.setCursor(0, 35);
-  display.print("Temperatura: ");
-  display.setTextSize(2);
-  display.setCursor(0, 45);
-  display.print(temperatura, 1);
-  display.setTextSize(1);
-  display.cp437(true);
-  display.write(167);
-  display.setTextSize(2);
-  display.print("C");
+  //Data e hora com fonte diferente
+  display.setFont(u8g2_font_crox3hb_tr);
+  display.drawStr(20, 15, dataStr);
+  display.drawStr(30, 35, horaStr);
 
-  display.setTextSize(1);
-  display.setCursor(80, 35);
-  display.print("Umidade: ");
-  display.setTextSize(2);
-  display.setCursor(80, 45);
-  display.print(umidade, 0);
+  //Alinhar icone aos dados
+  int yLine = 60;
+
+  //Umidade
+  int xUmid = 0;
+  display.setFont(u8g2_font_logisoso16_tf);
+  display.setCursor(xUmid + 16, yLine);
+  display.print((int)umidade);
   display.print("%");
+  desenhaGotinha(xUmid, yLine - 14);
 
-  display.display();
-}
+  //Temperatura
+  int xTemp = 65;
+  display.setCursor(xTemp + 16, yLine);
+  display.print(temperatura, 1);
+  display.print("C");
+  desenhaSol(xTemp, yLine - 14);
 
-void conectaWifi() {
-  Serial.begin(9600);
-  delay(10);
-
-  Serial.println("Conectando. ");
-  Serial.println(WIFI_SSID);
-
-  WiFi.begin(WIFI_SSID, WIFI_PWD);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi conectado.");
-}
-
-void imprimeOledCarregando() {
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setCursor(0, 25);
-  display.print("Carregando");
-  display.display();
-
-  display.startscrollleft(0x00, 0x07);
-  delay(2000);
+  display.sendBuffer();
 }
