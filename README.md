@@ -18,6 +18,9 @@ A maioria dos termohigrômetros disponíveis no mercado não disponibilizam o ar
 
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/f4dd2e3a-a8d9-4760-a6da-dd788f81ac86" width="262">
 
+## Versionamento
++ v1.1.0 (atual, utiliza modelo SH1106)
++ v1.0.0 (utiliza o modelo SSD1306)
 ## Fotos
 ### Equipe
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/2cc75e10-7915-462b-8b71-7c6778a0b54c" width="400">
