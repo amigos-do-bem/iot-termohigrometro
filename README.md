@@ -62,7 +62,7 @@ Obs: Este projeto precisa de internet para obter o horário atual (de um serviç
 * 01 - Display OLED SSH1106 128x64 1.3"
 
 ## PCB e Case 3D
-O arquivo para impressão da placa de circuito impresso pode ser encontrada na pasta "gerber"
+O arquivo para impressão da placa de circuito impresso pode ser encontrado na pasta "gerber"
 
 <img width="400" src="https://github.com/user-attachments/assets/a110c640-4667-4013-b437-748aa8591ab6" />
 
