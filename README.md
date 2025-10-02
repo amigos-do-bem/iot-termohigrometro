@@ -59,7 +59,7 @@ Obs: Este projeto precisa de internet para obter o horário atual (de um serviç
 * 01 - Placa NodeMCU v2
 * 01 - Sensor DHT-11/DHT-22
 * 01 - Resistor 10K Ω (pull-up)
-* 01 - Display LED modelo Adafruit 128x64 (SSD1306)
+* 01 - Display OLED SSH1106 128x64 1.3"
 
 ## PCB e Case 3D
 O arquivo para impressão da placa de circuito impresso pode ser encontrada na pasta "gerber"
