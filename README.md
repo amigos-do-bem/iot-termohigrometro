@@ -1,9 +1,8 @@
 #  IoT Termohigrômetro
 Termohigrômetro para medição da temperatura e umidade das farmácias do sertão com acompanhamento por painel Web
 
-
-
-![dashboard](https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/dcb96901-7c38-4b84-b378-38c6437a0a23)
+<img src="https://github.com/user-attachments/assets/f8e555b1-101d-41b5-9309-98c8a94559bb" width="700">
+<img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/dcb96901-7c38-4b84-b378-38c6437a0a23" width="700">
 
 ## Objetivo
 Os alunos de TI do Centro de Transformação da unidade Ceará criaram um dispositivo de IoT para medir a temperatura e umidade de ambientes (Termohigrômetro). 
