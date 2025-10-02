@@ -28,7 +28,8 @@ const int timeZone = -3;    // Brazil
 //const int timeZone = -8;  // Pacific Standard Time (USA)
 //const int timeZone = -7;  // Pacific Daylight Time (USA)
 
-const int maxTentativas = 5;
+const uint8_t maxTentativas = 20;
+const uint8_t delayTentativas = 5;
 int tentativasAtual = 1;
 
 WiFiUDP Udp;
@@ -88,6 +89,7 @@ time_t getNtpTime()
 if (tentativasAtual < maxTentativas ){
   tentativasAtual ++;
   Serial.println("Retentando NTP...");
+  delay(delayTentativas * 1000);
   return getNtpTime();
 }
 
