@@ -1,9 +1,8 @@
 #  IoT Termohigrômetro
-Termohigrômetro desenvolvido em ESP8266 para medir a temperatura e umidade das farmácias do sertão 
+Termohigrômetro para medição da temperatura e umidade das farmácias do sertão com acompanhamento por painel Web
 
-![dispositivo](https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/636c2a2d-5a83-46d8-81e0-f07fa71c82a7)
-
-![dashboard](https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/dcb96901-7c38-4b84-b378-38c6437a0a23)
+<img src="https://github.com/user-attachments/assets/f8e555b1-101d-41b5-9309-98c8a94559bb" width="700">
+<img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/dcb96901-7c38-4b84-b378-38c6437a0a23" width="700">
 
 ## Objetivo
 Os alunos de TI do Centro de Transformação da unidade Ceará criaram um dispositivo de IoT para medir a temperatura e umidade de ambientes (Termohigrômetro). 
@@ -18,9 +17,6 @@ A maioria dos termohigrômetros disponíveis no mercado não disponibilizam o ar
 
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/f4dd2e3a-a8d9-4760-a6da-dd788f81ac86" width="262">
 
-## Versionamento
-+ v1.1.0 (atual, utiliza modelo SH1106)
-+ v1.0.0 (utiliza o modelo SSD1306)
 ## Fotos
 ### Equipe
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/2cc75e10-7915-462b-8b71-7c6778a0b54c" width="400">
@@ -35,6 +31,9 @@ A maioria dos termohigrômetros disponíveis no mercado não disponibilizam o ar
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/c1977f49-6ed4-40ee-9c0a-dbb27c4f579f" width="400">
 
 <img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/eb2660a1-54ee-42e6-96d2-5a28f3c5d36b" width="400">
+
+### A primeira versão produzida
+<img src="https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/636c2a2d-5a83-46d8-81e0-f07fa71c82a7" width="400">
 
 ## Equipe
 * José Sérgio Pereira de Sá
@@ -56,19 +55,27 @@ Programação de um microcontrolador ESP8266 (compatível com Arduino) em lingua
 
 Obs: Este projeto precisa de internet para obter o horário atual (de um serviço de NTP) e para enviar as informações para a plataforma de IoT Arduino Cloud.
 
-
-https://github.com/amigos-do-bem/iot-termohigrometro/assets/9891961/3865d0d2-aa39-4d6d-bef5-e9a55b23db73
-
-(Demonstrando aumento de temperatura)
-
 ## Componentes
 * 01 - Placa NodeMCU v2
 * 01 - Sensor DHT-11/DHT-22
 * 01 - Resistor 10K Ω (pull-up)
 * 01 - Display LED modelo Adafruit 128x64 (SSD1306)
 
+## PCB e Case 3D
+O arquivo para impressão da placa de circuito impresso pode ser encontrada na pasta "garber"
+
+<img width="400" src="https://github.com/user-attachments/assets/a110c640-4667-4013-b437-748aa8591ab6" />
+
+Os arquivos para impressão do case 3D podem ser encontrados na pasta "stl"
+
+<img width="400" src="https://github.com/user-attachments/assets/aba33719-01e3-4a37-b690-642081e25030" />
+<img width="400" src="https://github.com/user-attachments/assets/ebd22d32-8728-4679-b0a2-9069a018abc9" />
+
+
 ## Instruções
-Abra o projeto no Arduino Ide. Altere o arquivo `global.h` com as configurações de acordo com as suas credencias de WiFi e da rede Arduino Cloud.
+O código-fonte do projeto encontra-se na pasta "source". Abra o arquivo "source.ino" no Arduino Ide.
+
+Altere o arquivo `global.h` com as configurações de acordo com as suas credencias de WiFi e da rede Arduino Cloud.
 
 ```c++
 #define DHTPIN D7
@@ -84,9 +91,14 @@ Abra o projeto no Arduino Ide. Altere o arquivo `global.h` com as configuraçõe
 #define DEVICE_KEY "XXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
+## Versionamento
++ v1.1.0 (atual, utiliza modelo SH1106)
++ [v1.0.0 (utiliza o modelo SSD1306)](https://github.com/amigos-do-bem/iot-termohigrometro/tree/v1.0.0)
+
 ## Bibliotecas utilizadas
 * https://github.com/PaulStoffregen/Time/
 * https://github.com/adafruit/DHT-sensor-library
 * https://github.com/adafruit/Adafruit_SSD1306
 * https://github.com/arduino-libraries/ArduinoIoTCloud
+
 
