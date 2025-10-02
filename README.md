@@ -74,7 +74,7 @@ Os arquivos para impressão do case 3D podem ser encontrados na pasta "stl"
 
 
 ## Instruções
-O código-fonte do projeto encontra-se na pasta "source". Abra o arquivo "iot-termohigrometro.ino" que encontra-se dentro de pasta no Arduino Ide.
+O código-fonte do projeto encontra-se na pasta "source". Abra o arquivo "source.ino" no Arduino Ide.
 
 Altere o arquivo `global.h` com as configurações de acordo com as suas credencias de WiFi e da rede Arduino Cloud.
 
